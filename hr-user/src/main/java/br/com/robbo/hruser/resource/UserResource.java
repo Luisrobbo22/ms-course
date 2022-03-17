@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/users")
 public class UserResource {
 
-        @Autowired
-        private UserRepository repository;
+    @Autowired
+    private UserRepository repository;
 
-        @GetMapping(value = "/{id}")
-        public ResponseEntity<User> findById(@PathVariable Long id) {
-            User user = repository.findById(id).get();
-            return ResponseEntity.ok(user);
-        }
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<User> findById(@PathVariable Long id) {
+        User user = repository.findById(id).get();
+        return ResponseEntity.ok(user);
+    }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<User> findById(@RequestParam String email) {
+    public ResponseEntity<User> findByEmail(@RequestParam String email) {
         User user = repository.findByEmail(email);
         return ResponseEntity.ok(user);
     }
