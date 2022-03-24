@@ -8,8 +8,8 @@ docker network create hr-net
 ## Testando perfil dev com Postgresql no Docker
 ```
 docker pull postgres:12-alpine
-docker run -p 5432:5432 --name hr-worker-pg12 --network hr-net -e POSTGRES_PASSWORD=1234567 -e POSTGRES_DB=db_hr_worker postgres:12-alpine
-docker run -p 5432:5432 --name hr-user-pg12 --network hr-net -e POSTGRES_PASSWORD=1234567 -e POSTGRES_DB=db_hr_user postgres:12-alpine
+docker run -d -p 5432:5432 --name hr-worker-pg12 --network hr-net -e POSTGRES_PASSWORD=1234567 -e POSTGRES_DB=db_hr_worker postgres:12-alpine
+docker run -d -p 5432:5432 --name hr-user-pg12 --network hr-net -e POSTGRES_PASSWORD=1234567 -e POSTGRES_DB=db_hr_user postgres:12-alpine
 ```
 
 ## hr-config-server
@@ -23,7 +23,7 @@ ENTRYPOINT ["java","-jar","/hr-config-server.jar"]
 ```
 mvnw clean package
 docker build -t hr-config-server:v1 .
-docker run -p 8888:8888 --name hr-config-server --network hr-net -e GITHUB_USER=acenelio -e GITHUB_PASS= hr-config-server:v1
+docker run -d -p 8888:8888 --name hr-config-server --network hr-net -e GITHUB_USER=acenelio -e GITHUB_PASS= hr-config-server:v1
 ```
 
 ## hr-eureka-server
@@ -37,7 +37,7 @@ ENTRYPOINT ["java","-jar","/hr-eureka-server.jar"]
 ```
 mvnw clean package
 docker build -t hr-eureka-server:v1 .
-docker run -p 8761:8761 --name hr-eureka-server --network hr-net hr-eureka-server:v1
+docker run -d -p 8761:8761 --name hr-eureka-server --network hr-net hr-eureka-server:v1
 ```
 
 ## hr-worker
@@ -50,7 +50,7 @@ ENTRYPOINT ["java","-jar","/hr-worker.jar"]
 ```
 mvnw clean package -DskipTests
 docker build -t hr-worker:v1 .
-docker run -P --network hr-net hr-worker:v1
+docker run -d -P --network hr-net hr-worker:v1
 ```
 
 ## hr-user
@@ -63,7 +63,7 @@ ENTRYPOINT ["java","-jar","/hr-user.jar"]
 ```
 mvnw clean package -DskipTests
 docker build -t hr-user:v1 .
-docker run -P --network hr-net hr-user:v1
+docker run -d -P --network hr-net hr-user:v1
 ```
 
 ## hr-payroll
@@ -76,7 +76,7 @@ ENTRYPOINT ["java","-jar","/hr-payroll.jar"]
 ```
 mvnw clean package -DskipTests
 docker build -t hr-payroll:v1 .
-docker run -P --network hr-net hr-payroll:v1
+docker run -d -P --network hr-net hr-payroll:v1
 ```
 
 ## hr-oauth
@@ -89,7 +89,7 @@ ENTRYPOINT ["java","-jar","/hr-oauth.jar"]
 ```
 mvnw clean package -DskipTests
 docker build -t hr-oauth:v1 .
-docker run -P --network hr-net hr-oauth:v1
+docker run -d -P --network hr-net hr-oauth:v1
 ```
 
 ## hr-api-gateway-zuul
@@ -103,7 +103,7 @@ ENTRYPOINT ["java","-jar","/hr-api-gateway-zuul.jar"]
 ```
 mvnw clean package -DskipTests
 docker build -t hr-api-gateway-zuul:v1 .
-docker run -p 8765:8765 --name hr-api-gateway-zuul --network hr-net hr-api-gateway-zuul:v1
+docker run -d -p 8765:8765 --name hr-api-gateway-zuul --network hr-net hr-api-gateway-zuul:v1
 ```
 
 ## Alguns comandos Docker
